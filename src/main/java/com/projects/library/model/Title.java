@@ -4,18 +4,20 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
 @Getter
 @Entity
 @Table(name = "titles")
 public class Title {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "title", unique = true)
     private String title;
@@ -28,4 +30,10 @@ public class Title {
 
     @OneToMany(mappedBy = "title")
     private Set<Book> books;
+
+    public Title(String title, String author, int year) {
+        this.title = title;
+        this.author = author;
+        this.year = year;
+    }
 }
