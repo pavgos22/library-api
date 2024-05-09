@@ -35,4 +35,8 @@ public class BookService {
     public int getAvailableBooksCount() {
         return repository.countByStatus("Available");
     }
+
+    public Book findBookById(int id) {
+        return repository.findById(id).orElse(null);
+    }
 }
