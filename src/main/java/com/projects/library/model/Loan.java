@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,19 +17,25 @@ import java.time.LocalDate;
 public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    @Column(name = "borrow_date")
-    private LocalDate borrowDate;
+    @Column(name = "borrow_date", nullable = false)
+    private LocalDateTime borrowDate;
 
     @Column(name = "return_date")
-    private LocalDate returnDate;
+    private LocalDateTime returnDate;
+
+    public Loan(User user, Book book, LocalDateTime borrowDate) {
+        this.user = user;
+        this.book = book;
+        this.borrowDate = borrowDate;
+    }
 }

@@ -1,5 +1,6 @@
 package com.projects.library.model;
 
+import com.projects.library.enums.BookStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,16 +16,21 @@ import lombok.Setter;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "title_id")
+    @JoinColumn(name = "title_id", nullable = false)
     private Title title;
 
-    @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private BookStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL)
+    private Loan loan;
+
+    public Book(Title title, BookStatus status) {
+        this.title = title;
+        this.status = status;
+    }
 }

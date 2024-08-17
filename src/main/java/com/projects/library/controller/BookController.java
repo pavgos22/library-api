@@ -1,44 +1,56 @@
 package com.projects.library.controller;
 
+import com.projects.library.dto.request.AddBookRequest;
+import com.projects.library.dto.request.ChangeStatusRequest;
 import com.projects.library.model.Book;
 import com.projects.library.services.BookService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("v1/library/books")
+@RequestMapping("/api/books")
+@RequiredArgsConstructor
 public class BookController {
+
     private final BookService bookService;
 
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
+    @GetMapping
+    public ResponseEntity<List<Book>> getAllBooks() {
+        List<Book> books = bookService.getAllBooks();
+        return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
-    @GetMapping
-    public List<Book> getAllBooks() {
-        return bookService.getAllBooks();
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> getBookById(@PathVariable Long id) {
+        Book book = bookService.getBook(id);
+        return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
     @PostMapping
-    public Book addBook(@RequestBody Book book) {
-        return bookService.saveBook(book);
+    public ResponseEntity<Book> addBook(@RequestBody AddBookRequest request) {
+        Book createdBook = bookService.addBook(request);
+        return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}/status")
-    public ResponseEntity<Void> updateBookStatus(@PathVariable int id, @RequestBody String status) {
-        Book book = bookService.findBookById(id);
-        if (book != null) {
-            bookService.changeStatus(book, status);
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+        bookService.deleteBook(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteBook(@PathVariable int id) {
-//        bookService.deleteBook(new Book(id));
-//        return ResponseEntity.ok().build();
-//    }
+    @PutMapping("/status")
+    public ResponseEntity<Void> changeBookStatus(@RequestBody ChangeStatusRequest request) {
+        bookService.changeStatus(request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/available/count")
+    public ResponseEntity<Integer> getAvailableBooksCount() {
+        int count = bookService.getAvailableBooksCount();
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
 }

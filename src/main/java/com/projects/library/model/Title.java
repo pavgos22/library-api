@@ -17,18 +17,18 @@ import java.util.Set;
 public class Title {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @Column(name = "title", unique = true)
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
-    @Column(name = "author")
+    @Column(name = "author", nullable = false)
     private String author;
 
-    @Column(name = "year")
+    @Column(name = "year", nullable = false)
     private int year;
 
-    @OneToMany(mappedBy = "title")
+    @OneToMany(mappedBy = "title", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Book> books;
 
     public Title(String title, String author, int year) {

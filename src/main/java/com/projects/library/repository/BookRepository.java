@@ -1,16 +1,19 @@
 package com.projects.library.repository;
 
+import com.projects.library.enums.BookStatus;
 import com.projects.library.model.Title;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.projects.library.model.Book;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-public interface BookRepository extends JpaRepository<Book, Integer> {
+@Repository
+public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT count(b) FROM Book b WHERE b.status = :status")
-    int countByStatus(@Param("status") String status);
-    Book findByTitleAndStatus(Title title, String status);
+    int countByStatus(@Param("status") BookStatus status);
+    Book findByTitleAndStatus(Title title, BookStatus status);
 
-    Book findByStatus(String status);
+    Book findByStatus(BookStatus status);
 }

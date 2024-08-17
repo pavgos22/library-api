@@ -6,8 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,13 +19,23 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(name = "first_name")
+    private long id;
+
+    @Column(name = "first_name", nullable = false)
     private String firstName;
-    @Column(name = "last_name")
+
+    @Column(name = "last_name", nullable = false)
     private String lastName;
-    @Column(name = "account_creation_date")
-    private LocalDate accountCreationDate;
-    @OneToMany(mappedBy = "user")
-    private List<Book> rentedBooks;
+
+    @Column(name = "account_creation_date", nullable = false)
+    private LocalDateTime creationDate;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Loan> loans = new HashSet<>();
+
+    public User(String firstName, String lastName, LocalDateTime creationDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.creationDate = creationDate;
+    }
 }
