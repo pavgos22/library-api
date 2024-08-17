@@ -1,6 +1,5 @@
 package com.projects.library.service;
 
-import com.projects.library.dto.request.AddBookRequest;
 import com.projects.library.dto.response.BookResponse;
 import com.projects.library.dto.request.ChangeStatusRequest;
 import com.projects.library.enums.BookStatus;
@@ -48,8 +47,8 @@ public class BookService {
         return bookMapper.toBookResponse(book);
     }
 
-    public BookResponse addBook(AddBookRequest request) {
-        Title title = titleRepository.findById(request.titleId()).orElseThrow(() -> new TitleNotFoundException(request.titleId()));
+    public BookResponse addBook(long titleId) {
+        Title title = titleRepository.findById(titleId).orElseThrow(() -> new TitleNotFoundException(titleId));
 
         Book book = new Book(title, BookStatus.AVAILABLE);
         Book savedBook = repository.save(book);
@@ -61,11 +60,11 @@ public class BookService {
         repository.delete(book);
     }
 
-    public void changeStatus(ChangeStatusRequest request) {
+    public void changeStatus(long id, ChangeStatusRequest request) {
         if (request.status() == null)
             throw new NullBookStatusException();
 
-        Book book = repository.findById(request.bookId()).orElseThrow(() -> new BookNotFoundException(request.bookId()));
+        Book book = repository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
         book.setStatus(request.status());
         repository.save(book);
     }

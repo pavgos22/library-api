@@ -1,6 +1,5 @@
 package com.projects.library.controller;
 
-import com.projects.library.dto.request.AddBookRequest;
 import com.projects.library.dto.request.ChangeStatusRequest;
 import com.projects.library.dto.response.BookResponse;
 import com.projects.library.service.BookService;
@@ -42,9 +41,9 @@ public class BookController {
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<BookResponse> addBook(@RequestBody AddBookRequest request) {
-        BookResponse createdBook = bookService.addBook(request);
+    @PostMapping("/{titleId}")
+    public ResponseEntity<BookResponse> addBook(@PathVariable long titleId) {
+        BookResponse createdBook = bookService.addBook(titleId);
         return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
     }
 
@@ -54,9 +53,9 @@ public class BookController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/status")
-    public ResponseEntity<Void> changeBookStatus(@RequestBody ChangeStatusRequest request) {
-        bookService.changeStatus(request);
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Void> changeBookStatus(@PathVariable long id, @RequestBody ChangeStatusRequest request) {
+        bookService.changeStatus(id, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
