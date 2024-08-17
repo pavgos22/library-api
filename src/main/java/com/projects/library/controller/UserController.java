@@ -3,7 +3,7 @@ package com.projects.library.controller;
 import com.projects.library.dto.request.AddUserRequest;
 import com.projects.library.dto.response.BookResponse;
 import com.projects.library.dto.response.UserResponse;
-import com.projects.library.services.UserService;
+import com.projects.library.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

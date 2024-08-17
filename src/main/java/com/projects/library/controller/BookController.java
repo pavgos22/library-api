@@ -3,7 +3,7 @@ package com.projects.library.controller;
 import com.projects.library.dto.request.AddBookRequest;
 import com.projects.library.dto.request.ChangeStatusRequest;
 import com.projects.library.dto.response.BookResponse;
-import com.projects.library.services.BookService;
+import com.projects.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +28,12 @@ public class BookController {
     public ResponseEntity<BookResponse> getBookById(@PathVariable Long id) {
         BookResponse book = bookService.getBook(id);
         return new ResponseEntity<>(book, HttpStatus.OK);
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<BookResponse>> getAvailableBooks(@RequestParam(required = false) Long titleId) {
+        List<BookResponse> availableBooks = bookService.getAvailableBooks(titleId);
+        return new ResponseEntity<>(availableBooks, HttpStatus.OK);
     }
 
     @GetMapping("/available/count")

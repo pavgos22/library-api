@@ -1,4 +1,4 @@
-package com.projects.library.services;
+package com.projects.library.service;
 
 import com.projects.library.dto.request.AddBookRequest;
 import com.projects.library.dto.response.BookResponse;
@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,19 @@ public class BookService {
         List<Book> books = repository.findAll();
         return bookMapper.mapToBookResponseList(books);
     }
+
+    public List<BookResponse> getAvailableBooks(Long titleId) {
+        List<Book> availableBooks;
+
+        if (titleId != null)
+            availableBooks = repository.findByStatusAndTitleId(BookStatus.AVAILABLE, titleId);
+        else availableBooks = repository.findByStatus(BookStatus.AVAILABLE);
+
+        return availableBooks.stream()
+                .map(bookMapper::toBookResponse)
+                .collect(Collectors.toList());
+    }
+
 
     public BookResponse getBook(long id) {
         Book book = repository.findById(id).orElseThrow(() -> new BookNotFoundException(id));

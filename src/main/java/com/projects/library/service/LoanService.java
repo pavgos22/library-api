@@ -1,4 +1,4 @@
-package com.projects.library.services;
+package com.projects.library.service;
 
 import com.projects.library.dto.request.AddLoanRequest;
 import com.projects.library.dto.response.LoanResponse;

@@ -2,7 +2,7 @@ package com.projects.library.controller;
 
 import com.projects.library.dto.request.AddLoanRequest;
 import com.projects.library.dto.response.LoanResponse;
-import com.projects.library.services.LoanService;
+import com.projects.library.service.LoanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

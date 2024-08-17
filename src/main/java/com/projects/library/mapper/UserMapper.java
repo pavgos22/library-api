@@ -25,8 +25,7 @@ public class UserMapper {
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getCreationDate().toString(),
-                user.getLoans().stream().map(loanMapper::toLoanResponse).collect(Collectors.toSet())
+                user.getCreationDate()
         );
     }
 

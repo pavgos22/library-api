@@ -2,7 +2,7 @@ package com.projects.library.controller;
 
 import com.projects.library.dto.request.AddTitleRequest;
 import com.projects.library.dto.response.TitleResponse;
-import com.projects.library.services.TitleService;
+import com.projects.library.service.TitleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

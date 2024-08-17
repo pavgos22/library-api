@@ -24,8 +24,7 @@ public class BookMapper {
         return new BookResponse(
                 book.getId(),
                 book.getTitle().getTitle(),
-                book.getStatus(),
-                loanMapper.toLoanResponse(book.getLoan())
+                book.getStatus()
         );
     }
 

@@ -1,4 +1,4 @@
-package com.projects.library.services;
+package com.projects.library.service;
 
 import com.projects.library.dto.request.AddUserRequest;
 import com.projects.library.dto.response.BookResponse;
@@ -7,7 +7,6 @@ import com.projects.library.exception.UserNotFoundException;
 import com.projects.library.exception.UserDeletionException;
 import com.projects.library.mapper.BookMapper;
 import com.projects.library.mapper.UserMapper;
-import com.projects.library.model.Book;
 import com.projects.library.model.User;
 import com.projects.library.model.Loan;
 import com.projects.library.repository.UserRepository;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
