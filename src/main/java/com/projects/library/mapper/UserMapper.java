@@ -2,6 +2,7 @@ package com.projects.library.mapper;
 
 import com.projects.library.dto.response.UserResponse;
 import com.projects.library.model.User;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -12,7 +13,7 @@ public class UserMapper {
 
     private final LoanMapper loanMapper;
 
-    public UserMapper(LoanMapper loanMapper) {
+    public UserMapper(@Lazy LoanMapper loanMapper) {
         this.loanMapper = loanMapper;
     }
 

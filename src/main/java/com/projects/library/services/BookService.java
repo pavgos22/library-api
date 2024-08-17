@@ -1,11 +1,13 @@
 package com.projects.library.services;
 
 import com.projects.library.dto.request.AddBookRequest;
+import com.projects.library.dto.response.BookResponse;
 import com.projects.library.dto.request.ChangeStatusRequest;
 import com.projects.library.enums.BookStatus;
 import com.projects.library.exception.BookNotFoundException;
 import com.projects.library.exception.NullBookStatusException;
 import com.projects.library.exception.TitleNotFoundException;
+import com.projects.library.mapper.BookMapper;
 import com.projects.library.model.Book;
 import com.projects.library.model.Title;
 import com.projects.library.repository.BookRepository;
@@ -20,20 +22,24 @@ import java.util.List;
 public class BookService {
     private final BookRepository repository;
     private final TitleRepository titleRepository;
+    private final BookMapper bookMapper;
 
-    public List<Book> getAllBooks() {
-        return repository.findAll();
+    public List<BookResponse> getAllBooks() {
+        List<Book> books = repository.findAll();
+        return bookMapper.mapToBookResponseList(books);
     }
 
-    public Book getBook(long id) {
-        return repository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+    public BookResponse getBook(long id) {
+        Book book = repository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+        return bookMapper.toBookResponse(book);
     }
 
-    public Book addBook(AddBookRequest request) {
+    public BookResponse addBook(AddBookRequest request) {
         Title title = titleRepository.findById(request.titleId()).orElseThrow(() -> new TitleNotFoundException(request.titleId()));
 
         Book book = new Book(title, BookStatus.AVAILABLE);
-        return repository.save(book);
+        Book savedBook = repository.save(book);
+        return bookMapper.toBookResponse(savedBook);
     }
 
     public void deleteBook(long id) {

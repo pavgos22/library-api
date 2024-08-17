@@ -1,7 +1,7 @@
 package com.projects.library.controller;
 
 import com.projects.library.dto.request.AddTitleRequest;
-import com.projects.library.model.Title;
+import com.projects.library.dto.response.TitleResponse;
 import com.projects.library.services.TitleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,20 +18,20 @@ public class TitleController {
     private final TitleService titleService;
 
     @GetMapping
-    public ResponseEntity<List<Title>> getAllTitles() {
-        List<Title> titles = titleService.getAllTitles();
+    public ResponseEntity<List<TitleResponse>> getAllTitles() {
+        List<TitleResponse> titles = titleService.getAllTitles();
         return new ResponseEntity<>(titles, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Title> getTitleById(@PathVariable Long id) {
-        Title title = titleService.getTitle(id);
+    public ResponseEntity<TitleResponse> getTitleById(@PathVariable Long id) {
+        TitleResponse title = titleService.getTitle(id);
         return new ResponseEntity<>(title, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Title> addTitle(@RequestBody AddTitleRequest addTitleRequest) {
-        Title createdTitle = titleService.addTitle(addTitleRequest);
+    public ResponseEntity<TitleResponse> addTitle(@RequestBody AddTitleRequest addTitleRequest) {
+        TitleResponse createdTitle = titleService.addTitle(addTitleRequest);
         return new ResponseEntity<>(createdTitle, HttpStatus.CREATED);
     }
 

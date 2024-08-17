@@ -1,8 +1,8 @@
 package com.projects.library.controller;
 
 import com.projects.library.dto.request.AddUserRequest;
-import com.projects.library.model.Book;
-import com.projects.library.model.User;
+import com.projects.library.dto.response.BookResponse;
+import com.projects.library.dto.response.UserResponse;
 import com.projects.library.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,31 +19,31 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<UserResponse> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userService.getUser(id);
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
+        UserResponse user = userService.getUser(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+
     @GetMapping("/{id}/books")
-    public ResponseEntity<List<Book>> getBooksLoanedByUser(@PathVariable Long id) {
-        List<Book> books = userService.getBooksLoanedByUser(id);
+    public ResponseEntity<List<BookResponse>> getBooksLoanedByUser(@PathVariable Long id) {
+        List<BookResponse> books = userService.getBooksLoanedByUser(id);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody AddUserRequest addUserRequest) {
-        User createdUser = userService.addUser(addUserRequest);
+    public ResponseEntity<UserResponse> addUser(@RequestBody AddUserRequest addUserRequest) {
+        UserResponse createdUser = userService.addUser(addUserRequest);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        User user = userService.getUser(id);
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

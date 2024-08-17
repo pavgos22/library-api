@@ -1,11 +1,12 @@
 package com.projects.library.services;
 
 import com.projects.library.dto.request.AddLoanRequest;
+import com.projects.library.dto.response.LoanResponse;
 import com.projects.library.enums.BookStatus;
 import com.projects.library.exception.BookNotFoundException;
 import com.projects.library.exception.LoanNotFoundException;
-import com.projects.library.exception.UserDeletionException;
 import com.projects.library.exception.UserNotFoundException;
+import com.projects.library.mapper.LoanMapper;
 import com.projects.library.model.Book;
 import com.projects.library.model.Loan;
 import com.projects.library.model.User;
@@ -24,16 +25,19 @@ public class LoanService {
     private final LoanRepository loanRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
+    private final LoanMapper loanMapper;
 
-    public List<Loan> getAllLoans() {
-        return loanRepository.findAll();
+    public List<LoanResponse> getAllLoans() {
+        List<Loan> loans = loanRepository.findAll();
+        return loanMapper.mapToLoanResponseList(loans);
     }
 
-    public Loan getLoan(Long id) {
-        return loanRepository.findById(id).orElseThrow(() -> new LoanNotFoundException(id));
+    public LoanResponse getLoan(Long id) {
+        Loan loan = loanRepository.findById(id).orElseThrow(() -> new LoanNotFoundException(id));
+        return loanMapper.toLoanResponse(loan);
     }
 
-    public Loan rentBook(AddLoanRequest request) {
+    public LoanResponse rentBook(AddLoanRequest request) {
         User user = userRepository.findById(request.userId()).orElseThrow(() -> new UserNotFoundException(request.userId()));
         Book book = bookRepository.findById(request.bookId()).orElseThrow(() -> new BookNotFoundException(request.bookId()));
 
@@ -41,7 +45,8 @@ public class LoanService {
         bookRepository.save(book);
 
         Loan loan = new Loan(user, book, LocalDateTime.now());
-        return loanRepository.save(loan);
+        Loan savedLoan = loanRepository.save(loan);
+        return loanMapper.toLoanResponse(savedLoan);
     }
 
     public void bookReturn(long id) {
@@ -56,11 +61,6 @@ public class LoanService {
 
     public void deleteLoan(long id) {
         Loan loan = loanRepository.findById(id).orElseThrow(() -> new LoanNotFoundException(id));
-
-        try {
-            loanRepository.delete(loan);
-        } catch (Exception ex) {
-            throw new UserDeletionException(id);
-        }
+        loanRepository.delete(loan);
     }
 }

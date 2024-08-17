@@ -1,35 +1,40 @@
 package com.projects.library.services;
 
 import com.projects.library.dto.request.AddTitleRequest;
+import com.projects.library.dto.response.TitleResponse;
 import com.projects.library.exception.TitleDeletionException;
 import com.projects.library.exception.TitleNotFoundException;
+import com.projects.library.mapper.TitleMapper;
 import com.projects.library.model.Title;
 import com.projects.library.repository.TitleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class TitleService {
     private final TitleRepository repository;
-    private final TitleRepository titleRepository;
+    private final TitleMapper titleMapper;
 
-    public List<Title> getAllTitles() {
-        return repository.findAll();
+    public List<TitleResponse> getAllTitles() {
+        List<Title> titles = repository.findAll();
+        return titles.stream()
+                .map(titleMapper::toTitleResponse)
+                .collect(Collectors.toList());
     }
 
-    public Title addTitle(AddTitleRequest addTitleRequest) {
+    public TitleResponse addTitle(AddTitleRequest addTitleRequest) {
         Title title = new Title(addTitleRequest.title(), addTitleRequest.author(), addTitleRequest.year());
-        return repository.save(title);
+        Title savedTitle = repository.save(title);
+        return titleMapper.toTitleResponse(savedTitle);
     }
 
     public void deleteTitle(long id) {
-        Title title = titleRepository.findById(id).orElseThrow(() -> new TitleNotFoundException(id));
-        repository.findById(id)
-                .orElseThrow(() -> new TitleNotFoundException(id));
-
+        Title title = repository.findById(id).orElseThrow(() -> new TitleNotFoundException(id));
         try {
             repository.delete(title);
         } catch (Exception ex) {
@@ -37,7 +42,8 @@ public class TitleService {
         }
     }
 
-    public Title getTitle(Long id) {
-        return repository.findById(id).orElseThrow(() -> new TitleNotFoundException(id));
+    public TitleResponse getTitle(Long id) {
+        Title title = repository.findById(id).orElseThrow(() -> new TitleNotFoundException(id));
+        return titleMapper.toTitleResponse(title);
     }
 }

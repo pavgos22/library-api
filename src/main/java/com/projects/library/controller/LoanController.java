@@ -1,7 +1,7 @@
 package com.projects.library.controller;
 
 import com.projects.library.dto.request.AddLoanRequest;
-import com.projects.library.model.Loan;
+import com.projects.library.dto.response.LoanResponse;
 import com.projects.library.services.LoanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,20 +18,20 @@ public class LoanController {
     private final LoanService loanService;
 
     @GetMapping
-    public ResponseEntity<List<Loan>> getAllLoans() {
-        List<Loan> loans = loanService.getAllLoans();
+    public ResponseEntity<List<LoanResponse>> getAllLoans() {
+        List<LoanResponse> loans = loanService.getAllLoans();
         return new ResponseEntity<>(loans, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Loan> getLoanById(@PathVariable Long id) {
-        Loan loan = loanService.getLoan(id);
+    public ResponseEntity<LoanResponse> getLoanById(@PathVariable Long id) {
+        LoanResponse loan = loanService.getLoan(id);
         return new ResponseEntity<>(loan, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Loan> rentBook(@RequestBody AddLoanRequest request) {
-        Loan createdLoan = loanService.rentBook(request);
+    public ResponseEntity<LoanResponse> rentBook(@RequestBody AddLoanRequest request) {
+        LoanResponse createdLoan = loanService.rentBook(request);
         return new ResponseEntity<>(createdLoan, HttpStatus.CREATED);
     }
 

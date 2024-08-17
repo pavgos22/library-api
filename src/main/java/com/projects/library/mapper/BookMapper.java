@@ -2,6 +2,7 @@ package com.projects.library.mapper;
 
 import com.projects.library.dto.response.BookResponse;
 import com.projects.library.model.Book;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class BookMapper {
 
     private final LoanMapper loanMapper;
 
-    public BookMapper(LoanMapper loanMapper) {
+    public BookMapper(@Lazy LoanMapper loanMapper) {
         this.loanMapper = loanMapper;
     }
 
