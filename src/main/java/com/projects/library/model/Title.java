@@ -19,13 +19,13 @@ public class Title {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "title", nullable = false, unique = true)
+    @Column(name = "`title`", nullable = false, unique = true)
     private String title;
 
     @Column(name = "author", nullable = false)
     private String author;
 
-    @Column(name = "year", nullable = false)
+    @Column(name = "`year`", nullable = false)
     private int year;
 
     @OneToMany(mappedBy = "title", cascade = CascadeType.ALL, orphanRemoval = true)
