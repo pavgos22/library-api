@@ -18,7 +18,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "title_id", nullable = false)
     private Title title;
 
@@ -26,7 +26,7 @@ public class Book {
     @Column(name = "status", nullable = false)
     private BookStatus status;
 
-    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private Loan loan;
 
     public Book(Title title, BookStatus status) {

@@ -68,7 +68,7 @@ public class BookTestSuite {
 
     @Test
     @Transactional
-    void bookDeletionCascadesToLoanTest() {
+    void bookLoanDeletionTest() {
         entityManager.remove(loan);
         entityManager.flush();
 
@@ -83,11 +83,26 @@ public class BookTestSuite {
 
     @Test
     @Transactional
-    void titleAssociationTest() {
-        entityManager.remove(loan);
+    void titleAssociationIsolatedTest() {
+        entityManager.remove(title);
         entityManager.flush();
 
-        entityManager.remove(book);
+        Title foundTitle = entityManager.find(Title.class, title.getId());
+        assertThat(foundTitle).isNull();
+    }
+
+    @Test
+    @Transactional
+    void titleAssociationTest() {
+        title.getBooks().forEach(book -> {
+            if (book.getLoan() != null) {
+                entityManager.remove(book.getLoan());
+            }
+            book.setTitle(null);
+            entityManager.remove(book);
+        });
+        title.getBooks().clear();
+
         entityManager.flush();
 
         entityManager.remove(title);

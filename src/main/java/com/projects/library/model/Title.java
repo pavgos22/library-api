@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -28,8 +29,8 @@ public class Title {
     @Column(name = "`year`", nullable = false)
     private int year;
 
-    @OneToMany(mappedBy = "title", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Book> books;
+    @OneToMany(mappedBy = "title", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<Book> books = new HashSet<>();
 
     public Title(String title, String author, int year) {
         this.title = title;

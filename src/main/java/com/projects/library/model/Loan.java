@@ -23,7 +23,7 @@ public class Loan {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
