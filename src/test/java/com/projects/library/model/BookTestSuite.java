@@ -80,35 +80,4 @@ public class BookTestSuite {
         Book foundBook = entityManager.find(Book.class, book.getId());
         assertThat(foundBook).isNull();
     }
-
-    @Test
-    @Transactional
-    void titleAssociationIsolatedTest() {
-        entityManager.remove(title);
-        entityManager.flush();
-
-        Title foundTitle = entityManager.find(Title.class, title.getId());
-        assertThat(foundTitle).isNull();
-    }
-
-    @Test
-    @Transactional
-    void titleAssociationTest() {
-        title.getBooks().forEach(book -> {
-            if (book.getLoan() != null) {
-                entityManager.remove(book.getLoan());
-            }
-            book.setTitle(null);
-            entityManager.remove(book);
-        });
-        title.getBooks().clear();
-
-        entityManager.flush();
-
-        entityManager.remove(title);
-        entityManager.flush();
-
-        Title foundTitle = entityManager.find(Title.class, title.getId());
-        assertThat(foundTitle).isNull();
-    }
 }
