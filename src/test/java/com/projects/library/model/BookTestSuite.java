@@ -28,7 +28,7 @@ public class BookTestSuite {
 
     @BeforeEach
     void setUp() {
-        title = new Title("Test Title", "Test Author", 2023);
+        title = new Title("Test Title", "Test Author", 2024);
         entityManager.persist(title);
 
         user = new User("Joe", "Nemo", LocalDateTime.now());
