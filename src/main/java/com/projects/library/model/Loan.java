@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -25,6 +27,7 @@ public class Loan {
 
     @OneToOne
     @JoinColumn(name = "book_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Book book;
 
     @Column(name = "borrow_date", nullable = false)

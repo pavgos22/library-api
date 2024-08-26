@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +32,7 @@ public class Title {
     private int year;
 
     @OneToMany(mappedBy = "title", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Book> books = new HashSet<>();
 
     public Title(String title, String author, int year) {
