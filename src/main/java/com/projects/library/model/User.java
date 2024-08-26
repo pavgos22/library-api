@@ -30,8 +30,9 @@ public class User {
     @Column(name = "account_creation_date", nullable = false)
     private LocalDateTime creationDate;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Loan> loans = new HashSet<>();
+
 
     public User(String firstName, String lastName, LocalDateTime creationDate) {
         this.firstName = firstName;

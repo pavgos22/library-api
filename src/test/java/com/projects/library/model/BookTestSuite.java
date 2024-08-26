@@ -31,7 +31,7 @@ public class BookTestSuite {
         title = new Title("Test Title", "Test Author", 2023);
         entityManager.persist(title);
 
-        user = new User("John", "Doe", LocalDateTime.now());
+        user = new User("Joe", "Nemo", LocalDateTime.now());
         entityManager.persist(user);
 
         book = new Book(title, BookStatus.AVAILABLE);
