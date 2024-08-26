@@ -30,7 +30,7 @@ The system is built around four primary entities:
 3. **Books**:
    - `id` (Long): The unique identifier for a book copy.
    - `title_id` (Long): The foreign key linking the book to a title.
-   - `status` (Enum): The status of the book copy (e.g., `AVAILABLE`, `RENTED`, `DESTROYED`, `LOST`).
+   - `status` (Enum): The status of the book copy (e.g., `AVAILABLE`, `RENTED`).
 
 4. **Loans**:
    - `id` (Long): The unique identifier for a loan transaction.
@@ -39,6 +39,29 @@ The system is built around four primary entities:
    - `borrow_date` (Timestamp): The date the book was borrowed.
    - `return_date` (Timestamp, nullable): The date the book was returned.
 
+## Testing
+
+The application is thoroughly tested using `JUnit` with a focus on unit and integration tests, leveraging an H2 in-memory database in the test profile to ensure robust functionality across REST controllers, services, and repository layers, verifying the correct behavior of all key features.
+
+### Test Coverage
+
+- **Test Coverage**: The project currently achieves a test coverage of **83%**, indicating that a significant portion of the codebase is covered by automated tests. This high level of coverage ensures that the application is well-tested and resilient to changes.
+
+### Test Suites
+
+1. **Controller Tests**: 
+   - Tests the REST API endpoints to ensure they handle HTTP requests and responses correctly.
+   - Includes tests for all major operations such as creating, retrieving, updating, and deleting entities (e.g., books, users, loans).
+   - Uses `MockMvc` for simulating HTTP requests and verifying the behavior of the API controllers.
+
+2. **Service Tests**:
+   - Focuses on the business logic contained within the service layer.
+   - Tests various service methods to ensure they perform the expected operations, such as creating entities, managing loans, and updating statuses.
+
+3. **Entity Tests**:
+   - Ensures the basic operations can be executed on database properly using EntityManager.
+   - Verifies the correctness of relationships between entities in the database.
+
 ## Technologies Used
 
 - **Spring Boot 3.1.11**: A powerful framework for building Java applications with embedded servers and simplified dependency management.
@@ -46,4 +69,5 @@ The system is built around four primary entities:
 - **MySQL**: Relational database management system used for storing all the data.
 - **Gradle**: Dependency management and build tool.
 - **JUnit**: Testing framework for unit tests.
+- **H2**: Second level in-memory database for testing.
 
