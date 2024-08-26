@@ -32,7 +32,7 @@ public class UserTestSuite {
         user = new User("Joe", "Nemo", LocalDateTime.now());
         entityManager.persist(user);
 
-        Title title = new Title("Test Title", "Test Author", 2023);
+        Title title = new Title("Test Title", "Test Author", 2024);
         entityManager.persist(title);
 
         book = new Book(title, BookStatus.AVAILABLE);
