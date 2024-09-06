@@ -71,3 +71,10 @@ The application is thoroughly tested using `JUnit` with a focus on unit and inte
 - **JUnit**: Testing framework for unit tests.
 - **H2**: Second level in-memory database for testing.
 
+## How to run
+
+1. Clone the repository or download the ZIP file
+2. Run `./gradlew build` command to build the project
+3. Open the project in your IDE and run the `JavaLibraryApplication.java` file.
+4. The API will be accessible at `http://localhost:8080`.
+
